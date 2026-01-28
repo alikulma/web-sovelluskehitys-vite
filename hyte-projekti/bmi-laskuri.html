@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI-laskuri</title>
+    <style>
+        body {
+            padding: 10px;
+            margin: auto;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            width: 50%;
+            box-shadow: 1px 1px 10px 10px hotpink;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        }
+
+        img {
+            display: block;
+            width: 632px;
+            margin: auto;
+        }
+
+        h1 {
+            text-align: center;
+        }
+        
+        input {
+            display: block;
+            margin: 4px;
+        }
+
+        #nappi:hover {
+            background-color: hotpink;
+            cursor: pointer;
+        }
+
+        table td {
+            border: 1px solid black;
+            padding: 4px;
+        }
+
+    </style>
+</head>
+<body>
+    <img id="kuva" src="public/bmi.jpg" alt="BMI-kaava">
+    <h1>BMI-laskuri</h1>
+    <p>
+        Painoindeksi (BMI) on mitta-arvo, jonka avulla voidaan arvioida ihmisen 
+        painon ja pituuden suhdetta.
+    </p>
+    <form action="">
+        <label for="paino">Anna painosi:</label>
+        <input type="text" id="paino" name="paino" placeholder="kg" />
+        <label for="pituus">Anna pituutesi:</label>
+        <input type="text" id="pituus" name="pituus" placeholder="cm" />
+        <input id="nappi" type="submit" value="Laske" />
+    </form>
+    <p>
+        Mittaustuloksesi: <span id="tulos">0</span>
+    </p>
+    <table>
+        <tr id="alipaino">
+            <td>Alipaino</td>
+            <td>0-18,9</td>
+        </tr>
+        <tr id="normaaliPaino">
+            <td>Normaali paino</td>
+            <td>19-24,9</td>
+        </tr>
+        <tr id="ylipaino">
+            <td>Ylipaino</td>
+            <td>25,0 tai enemmän</td>
+        </tr>
+    </table>
+    <p>
+        Analyysi: <span id="analyysi">Tähän saat tietoa painoindeksistäsi.</span>
+    </p>
+    <script>
+        let form = document.querySelector("form");
+        form.addEventListener("submit", (event) => {
+            let paino = document.getElementById("paino").value;
+            let pituus = document.getElementById("pituus").value;
+            let bmi = paino / ((pituus/100)**2);
+            let bmiTulos = bmi.toFixed(1);
+            document.getElementById("tulos").innerHTML = `${bmiTulos}`;
+            if (bmiTulos < 19) {
+                document.getElementById("alipaino").style.backgroundColor = "lightgreen";
+                document.getElementById("normaaliPaino").style.backgroundColor = "white";
+                document.getElementById("ylipaino").style.backgroundColor = "white";
+                document.getElementById("analyysi").innerHTML = "Painoindeksisi luokitellaan alipainoiseksi. Tämä voi olla merkki aliravitsemuksesta, syömishäiriöstä tai muusta terveysongelmasta. BMI on kuitenkin vain tilastointiväline, eikä sitä voida sellaisenaan käyttää ennustamaan yksilön terveydentilaa.";
+            } else if (bmiTulos >= 25) {
+                document.getElementById("alipaino").style.backgroundColor = "white";
+                document.getElementById("normaaliPaino").style.backgroundColor = "white";
+                document.getElementById("ylipaino").style.backgroundColor = "lightgreen";
+                document.getElementById("analyysi").innerHTML = "Painoindeksisi luokitellaan ylipainoiseksi. Tämä korreloi suurimpaan riskiin sairastua useisiin pitkäaikaissairauksiin, kuten kakkostyypin diabetekseen ja sydän- ja verisuonitauteihin. BMI on kuitenkin vain tilastointiväline, eikä sitä voida sellaisenaan käyttää ennustamaan yksilön terveydentilaa.";
+            } else {
+                document.getElementById("alipaino").style.backgroundColor = "white";
+                document.getElementById("normaaliPaino").style.backgroundColor = "lightgreen";
+                document.getElementById("ylipaino").style.backgroundColor = "white";
+                document.getElementById("analyysi").innerHTML = "Painoindeksisi luokitellaan normaalin rajoihin. Tämä korreloi pienimpään riskiin sairastua useisiin pitkäaikaissairauksiin, kuten kakkostyypin diabetekseen ja sydän- ja verisuonitauteihin. BMI on kuitenkin vain tilastointiväline, eikä sitä voida sellaisenaan käyttää ennustamaan yksilön terveydentilaa.";
+            }
+        });
+    </script>
+</body>
+</html>
