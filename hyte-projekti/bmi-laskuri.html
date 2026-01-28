@@ -30,6 +30,12 @@
             margin: 4px;
         }
 
+        #nappi {
+            padding: 4px;
+            background-color: lightskyblue;
+            border-radius: 3px;
+        }
+
         #nappi:hover {
             background-color: hotpink;
             cursor: pointer;
@@ -79,6 +85,7 @@
     <script>
         let form = document.querySelector("form");
         form.addEventListener("submit", (event) => {
+            event.preventDefault();
             let paino = document.getElementById("paino").value;
             let pituus = document.getElementById("pituus").value;
             let bmi = paino / ((pituus/100)**2);
